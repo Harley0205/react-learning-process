@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>class basis</title>
+</head>
+
+<body>
+ 
+    <script type="text/javascript">
+        /**
+         * 1. 类中的构造器不是必须写的，要对实例进行初始化的操作时采写
+         * 2. 如果A继承了B，且A中写了构造器，那么A构造器中的super()时必须要调用的
+         * 3. 类中所定义的方法 ，都是放在了原型对象上，供实例去使用
+         */
+
+        // 创建一个类
+        class Person {
+            // 构造方法
+            constructor(name,age) {
+                this.name = name
+                this.age = age
+            }
+
+            speak() {
+                // speak 方法放在了哪里？类的原型对象上，供实例使用
+                //通过person实例调用speak时，speak中的this就是person实例
+                console.log(`我叫${this.name}`,`我的年龄是${this.age}`)
+            }
+        }
+
+        const p1 = new Person('LittleHu',18)
+        console.log(p1)
+        p1.speak()
+    
+        // 类的继承，super()调用的是父类
+        class Student extends Person {
+            constructor(name,age,grade){
+                super(name, age)
+                this.grade = grade
+            }
+
+            // 重写继承自父类的方法
+            speak() {
+                console.log(`我叫${this.name},`,`我的年龄是${this.age},`,`年级为${this.grade}`)
+            }
+            study() {
+                // 通过student实例调用study时，study中的this就是student实例
+                console.log(`我很努力的学习了`)  
+            }
+        }
+
+        const p2 = new Student('xiaohu',20,'高一')
+        console.log(p2)
+        p2.speak()
+        p2.study()
+    </script>
+
+
+</body>
+</html>

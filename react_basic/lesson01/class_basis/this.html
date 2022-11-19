@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>class basis</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        /**
+         * 
+         */
+        class Person {
+            constructor(name,age) {
+                this.name = name
+                this.age = age
+            }
+
+            /** 类中所有定义的方法，它在局部都开启了严格模式
+             * 所以导致x() 不敢只想window，所以最终x()变成了underfined。
+             * 
+             *  speak() 函数是存储在堆内存中,原来只有一个栈中方法能找到 就是p1.speak()
+             *  后来 由于做了这个赋值 const x = p1.speak，所以speak() 就多了一个引用 x
+             *  直接使用x(), 就是属于函数的直接调用，直接调用的话应该是全局的window。
+             * 因为局部开启了严格模式，所以全局window无法访问speak()
+             */
+            speak() {
+                // speak方法放在了哪里？ 类的原型对象上，供实例使用
+                // 通过Person实例调用speak时，speak中的this就是Person实例
+                console.log('this is :',this)
+            }
+        }
+
+        const p1 = new Person('LittleHu',18)
+        console.log('p1对象是：',p1)
+        p1.speak()   //通过实例调用speak方法, 属于实例. 调用
+
+        const x = p1.speak    // p1 是实例，我把p1的属性speak交给x，speak还是一个特殊的属性，是一个函数
+        x()   // 那么问题来了，为什么这里调用的结果是 undefined。这里x()是属于直接调用
+
+        /** 严格模式调用测试
+         * demo()未开启严格模式
+         * demo2()开启严格模式
+         */
+
+         function demo() {
+            console.log(this)  // this返回的是Window对象
+         }
+         function demo2() {
+            'use strict'
+            console.log(this)  // 开启了严格模式，返回的是undefined
+         }
+         demo()
+         demo2()
+
+         // 这里的demo使用了bind，传入的是两个参数，所以这时的y已经是一个新的函数了。
+         // 再次调用的时候使用y() 即可输出新函数的两个参数。
+         // 具体bind的使用可参考  react-learning-process\react_basic\lesson01\session_07.html 文件
+         // bind能做两件事：1. 生成新的函数； 2. 帮你改掉函数里面this。 (具体看传入的参数)
+         const y = demo.bind({a:1,b:2})
+         y()
+    </script>
+
+
+</body>
+</html>
