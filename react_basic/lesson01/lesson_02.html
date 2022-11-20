@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 要先引入react的核心库，再引入react的dom库-->
+    <script src="../scripts/react.development.js"></script>
+    <script src="../scripts/react-dom.development.js"></script>
+
+    <style>
+        .title{
+            background-color: brown;
+            width: 390px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 准备一个“容器”-->
+    <div id="example"></div>
+    <div id="example2"></div>
+ 
+    <script type="text/babel">
+        /**  JSX语法规则 (JSX 标签会被转化成html)
+         *  1. 定义虚拟DOM时，不要写引号
+         *  2. 标签中混入JS表达式时，需要用{}
+         *  3. 样式的类型指定不要用class，要用className
+         *  4. 内联样式，要用style={{}}
+         *  5. 虚拟DOM必须只有一个跟标签
+         *  6. 标签必须闭合。如：<h1></h1>, <input />
+         */
+
+        const myId = 'Xiaohu'
+        const myData = 'xiao gege'
+        // 1. 创建虚拟DOM。只有一个根标签，一个子标签
+        const VDOM = (
+            <h1 className="title" id={myId.toLowerCase()}>
+                <span style={{color:'white',fontSize:'49px'}}>{myData.toLowerCase()}</span>
+            </h1>
+        )
+
+        // 1. 创建虚拟DOM。有一个根标签，多个子标签
+        const VDOM2 = (
+            <div>
+                <h1 className="title" id={myId.toLowerCase()+'2-1'}>
+                    <span style={{color:'white',fontSize:'49px'}}>{myData.toLowerCase()}+'2'</span>
+                </h1>
+                <h1 className="title" id={myId.toUpperCase()+'2-2'}>
+                    <span style={{color:'white',fontSize:'49px'}}>{myData.toUpperCase()}+'2'</span>
+                </h1>
+            </div>
+        )
+
+        ReactDOM.render(
+            VDOM,
+            document.getElementById('example')
+        );
+
+        ReactDOM.render(
+            VDOM2,
+            document.getElementById('example2')
+        );      
+    </script>
+
+
+</body>
+</html>

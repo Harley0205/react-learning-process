@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <div id="example"></div>
+    <div id="example1"></div>
+    <div id="example2"></div>
+    <div id="example3"></div>
+    <div id="example4"></div>
+    <div id="example5"></div>
+    <div id="example6"></div>
+    <div id="example7"></div>
+    <div id="example8"></div>
+    <div id="example9"></div>
+ 
+    <script type="text/babel">
+
+        /** 
+         * 组件三大核心属性：props
+         * 
+         */
+ 
+        // 1. 创建类式组件
+        class Person extends React.Component {
+            // 初始化状态
+            state = {isHot: false} 
+            
+            render(){
+                // console.log(this)
+                const {name,age,sex} = this.props
+                return (
+                    <ul>
+                        <li>name:{name}</li>
+                        <li>age: {age}</li>
+                        <li>sex: {sex}</li>
+                    </ul>
+                )
+            }
+        }
+
+        // 2. 渲染组件到页面
+        // 此处传递的应该是k-v形式的数据，年龄虽然是number类型，但是也要加引号
+        // 所以age的值在这里是string类型
+        ReactDOM.render(
+            <Person name="xiaohu" age="18" sex="man"/>,
+            document.getElementById('example')
+        );
+
+        // 虽然传递的应该是k-v形式的数据，但是这里使用了大括号，表示里面可以直接写js表达式
+        // 所以age的值在这里是number类型
+        ReactDOM.render(
+            <Person name="huhu" age={16} sex="man"/>,
+            document.getElementById('example1')
+        );
+
+        // 下面的这种写法就相当于拿到了后台数据，然后直接传递了对象，但是字段名要一模一样。
+        /** 
+         * 关于 ...per 展开运算符： 
+         * 1. 代码 <Person {...per} />： 其中的大括号并不是展开运算符中 构造字面量对象时使用的展开语法。
+         *    bable和react允许直接使用展开运算符，而不需要大括号。这里的大括号意思是：大括号包裹的里面是可以写js表达式。
+         * 2. ...per展开运算符， 仅适用于标签属性的传递，其他任何地方都不能这样使用
+         * 3. console.log('@@', ...per) :这种写法直接报错了。因为react里面的... 展开运算符只能在标签中使用
+         * 4. 可以批量传递标签属性
+         */
+
+        const per = {name: 'littleHu',age: 19, sex: "man"}
+        // console.log('@@', ...per)  // 这种写法直接报错了。因为react里面的 ... 展开运算符只能在标签中使用
+        // concole.log('---')
+        ReactDOM.render(
+            <Person {...per} />,
+            document.getElementById('example2')
+        );
+
+
+        /** 如何对props组件传入的值进行限定
+         * 1. 限定包括：传入的类型；是否为空；是否需要默认值。
+         */
+        class Student extends React.Component {
+            
+            render(){
+                //console.log(this)
+                const {name,age,sex} = this.props
+                return (
+                    <ul>
+                        <li>name:{name}</li>
+                        <li>age: {age}</li>
+                        <li>sex: {sex}</li>
+                    </ul>
+                )
+            }
+        }
+
+        /** 如何对props组件传入的值进行限定。
+         * 
+         * 1. 在15.XXX 版本中PropTypes属性在React对象上，但是会导致react对象臃肿。
+         * 2. 在16.xxx 版本中需要引入一个prop-types.js文件，用于对组件标签属性进行限定。
+         *    引入prop-types.js文件文件后，全局就多了一个对象PropTypes对象。
+
+         * 注意 Student.propTypes 的p是小写的； 对象的PropTypes是大写的。
+         * 3. 表示name必须是string类型，且不能为空
+         * 4. 表示性别sex必须是string类型
+         * 5. 表示age必须是number类型
+         * 6. 表示speak必须是函数类型
+         */
+        Student.propTypes = {
+            name:PropTypes.string.isRequired,
+            sex:PropTypes.string,
+            age:PropTypes.number,
+            speak:PropTypes.func,  // PropTypes对象后面的属性不能是js的关键字
+        }
+        //指定标签属性的默认值：defaultProps 名称是指定的，不能更改的，否则不会执行。
+        Student.defaultProps = {
+            sex: "unknow",
+            age: -1
+        }
+
+        ReactDOM.render(
+            <Student name="hulijun" age={30} sex="man"/>,
+            document.getElementById('example3')
+        );
+
+        // 此处页面调试时会显示错误，但是页面还是能正常显示。
+        ReactDOM.render(
+            <Student name={1121} age={30} sex="man"/>,
+            document.getElementById('example4')
+        );
+        // name 为空。页面显示为空，但是f12调试显示错误信息。
+        ReactDOM.render(
+            <Student age={30} sex="man"/>,
+            document.getElementById('example5')
+        );
+
+        // 性别为空,有默认值
+        ReactDOM.render(
+            <Student name="xiaowang" age={30} />,
+            document.getElementById('example6')
+        );
+
+        // 年龄为空，有默认值
+        ReactDOM.render(
+            <Student name="xiaowang" sex="woman" />,
+            document.getElementById('example7')
+        );
+
+        // speak必须是函数类型
+        ReactDOM.render(
+            <Student name="K" age ={33} sex="femal" speak={speak}/>,
+            document.getElementById('example8')
+        );
+
+        function speak() {
+            console.log("speak is called")
+        }
+    </script>
+
+
+</body>
+</html>

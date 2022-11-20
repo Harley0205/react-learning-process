@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <div id="example"></div>
+ 
+    <script type="text/babel">
+        /**
+         * 面向组件编程： 类式组件
+         */
+ 
+        // 1. 创建：类式组件
+        class MyComponent extends React.Component{
+            render(){
+                // render 式放在哪里的？ MyComponent的原型对象上的，供实例使用
+                // render中this是谁？ MyComponent的实例对象。MyComponent组件实例对象
+                console.log(`render中的this指的是:`,this )
+                return <h2>我是类式组件</h2>
+            }
+        }
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <MyComponent />,
+            document.getElementById('example')
+        );
+ 
+        /**
+         *  执行了ReactDOM.render()之后发生了什么？
+         * 1. React解析组件标签，找到了MyComponent组件
+         * 2. 发现组件时使用类定义的，随后new出来了该类的实例，并通过实例调用到原型上的render()
+         * 3. 将render返回的虚拟DOM转为真实DOM，随后呈现在页面上
+         */
+    </script>
+
+
+</body>
+</html>

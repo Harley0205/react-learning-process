@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>展开运算符</title>
+</head>
+
+<body>
+ 
+    <script type="text/javascript">
+        /**
+         *  关于展开运算符 (...)
+         * 1. 可以展开数组，输出数组每一个元素
+         * 2. 可以连接数组，将多个数组连成一个
+         * 3. 可以用于函数传参。
+         * 4. 展开运算符不能展开一个对象
+         * 5. 使用{...} 可以拷贝一个对象，同时也可以对对象内容进行修改
+         */
+
+         let arr1 = [1,2,3,4,5]
+         let arr2 = [6,7]
+
+         console.log('1.', arr1)
+         console.log('2.',...arr2)  // 展开数组
+
+         // 展开运算符也可以拼接数组
+         let arr3 = [...arr1,...arr2]
+         console.log(arr3)
+
+         // 需要回顾数组身上的方法。这很重要。   
+         function sum(...num){
+            return num.reduce((preValues, currentValue) =>{
+                return preValues + currentValue
+            })
+         }
+         console.log('sum =',sum(1,2,3))
+
+         // 展开运算符不能展开一个对象
+         const p = {name:"xiaowang", age:12}
+         const p1 = p
+         p.name = "update"    // 浅拷贝，p1会随着更改
+         console.log('p1.name =',p1.name)
+         // console.log(...p)  // 报错，不能展开
+
+         /** 注意：深拷贝和浅拷贝的区别 
+          *  加上大括号了之后，就可以。
+          *  意思是构造字面量对象时使用展开语法。 
+          *  
+          */
+         const p2 = {...p}   // 深拷贝，p2是独立的
+         p.name = "update name"
+         console.log('p2.name =',p2.name)
+
+         // 复制对象的同时修改了属性
+         const p3 = {...p, name:"xiaosan"}
+         console.log('p3.name =',p3.name)
+    </script>
+
+
+</body>
+</html>
