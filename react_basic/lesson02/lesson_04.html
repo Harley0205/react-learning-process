@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <div id="example"></div>
+ 
+    <script type="text/babel">
+
+        /** 函数式组件使用props
+         * 
+         * 1. 函数式组件只能接收参数props，不能使用state，refs
+         * 2. 函数式组件依旧可以对props参数进行限制
+         */
+        
+        // 1. 定义函数式组件
+        function Person(props) {
+            console.log(props)
+            const {age, name, sex} = props
+            return (
+                <ul>
+                    <li>姓名: {name}</li>
+                    <li>性别: {sex}</li>
+                    <li>年龄: {age}</li>
+                </ul>
+            )
+        }
+        Person.propTypes = {
+            name:PropTypes.string.isRequired,
+            sex:PropTypes.string,
+            age:PropTypes.number,
+        }
+            // 指定默认标签属性值
+        Person.defaultProps = {
+            sex:"man",
+            age:18
+        }
+
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Person name="xiaohu" sex="man" age={13}/>,
+            document.getElementById('example')
+        );
+
+     
+    </script>
+
+
+</body>
+</html>

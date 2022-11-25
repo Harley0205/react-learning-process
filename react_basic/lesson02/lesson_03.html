@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <div id="example"></div>
+ 
+    <script type="text/babel">
+
+        /** 
+         * constructor 构造器
+         * 1. 构造器props传给super与不传给super的区别
+         *     1. 如果构造器接收了props并且super传了props，那么构造器实例对象就可以访问props,即：this.props有值
+         * 
+         *     2. 如果构造器不接收props，super不传props，不会报错，但是this.props无法获取到对应的值。
+         *        同理，构造器接收props，但是super没传的话，也是无法获取到props值
+         * 
+         *     3. 构造器是否接收props，是否传递给super，取决于：是否希望在构造器中通过this访问props。 
+         *        (PS: 但是，其实不用this.props，直接props也可以访问)
+         * 
+         *     4. 总结，类中的构造器能省略就省略。
+         * 
+         * 2. 构造器的作用。在react中，构造器只用于两种情况
+         *     1. 通过给this.state赋值对象来初始化内部state
+         *     2. 为事件处理函数绑定实例
+         *
+         */
+ 
+        // 1. 创建类式组件
+        class Person extends React.Component {
+            // 构造器穿了props，就能取到
+            constructor(props){
+                super(props)
+                console.log('constructor', this.props)  // 有值
+
+                // 1. 赋值初始化内部state
+                // this.state = {isHot:false} 
+                // 2. 为事件处理函数绑定实例
+                // this.changeWeather = this.changeWeather.bind(this)
+            }
+
+            //不传props 下面的值就是 undefined
+            //constructor(){
+            //    super()
+            //    console.log('constructor', this.props)
+            //}
+
+            // render 是类的一个方法。
+            render(){
+
+                const {name,age,sex} = this.props
+
+                // props对象属性不能被修改，下面的写法会报错。
+                // this.props.name = "new name" 
+                return (
+                    <ul>
+                        <li>name:{name}</li>
+                        <li>age: {age}</li>
+                        <li>sex: {sex}</li>
+                    </ul>
+                )
+            }
+            
+            // 对标签属性进行类型、必要性的限制
+            static propTypes = {
+                name:PropTypes.string.isRequired,
+                sex:PropTypes.string,
+                age:PropTypes.number,
+            }
+            // 指定默认标签属性值
+            static defaultProps = {
+                sex:"man",
+                age:18
+            }
+        }
+
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Person name="xiaohu" />,
+            document.getElementById('example')
+        );
+
+     
+    </script>
+
+
+</body>
+</html>
