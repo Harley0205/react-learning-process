@@ -23,11 +23,11 @@
  
     <script type="text/babel">
         /**  JSX语法规则 (JSX 标签会被转化成html)
-         *  1. 定义虚拟DOM时，不要写引号
-         *  2. 标签中混入JS表达式时，需要用{}
+         *  1. 定义虚拟DOM时，不要写引号。
+         *  2. 标签中混入JS表达式时，需要用{}。 (需要注意这一点)
          *  3. 样式的类型指定不要用class，要用className
          *  4. 内联样式，要用style={{}}
-         *  5. 虚拟DOM必须只有一个跟标签
+         *  5. 虚拟DOM必须只有一个根标签
          *  6. 标签必须闭合。如：<h1></h1>, <input />
          */
 
@@ -47,7 +47,7 @@
                     <span style={{color:'white',fontSize:'49px'}}>{myData.toLowerCase()}+'2'</span>
                 </h1>
                 <h1 className="title" id={myId.toUpperCase()+'2-2'}>
-                    <span style={{color:'white',fontSize:'49px'}}>{myData.toUpperCase()}+'2'</span>
+                    <span style={{color:'white',fontSize:'49px'}}>{myData.toUpperCase()}+'3'</span>
                 </h1>
             </div>
         )

@@ -36,6 +36,14 @@
                         })
                     }
                 </ul>
+
+                <ul>
+                    {
+                        data.map((item,index)=>{
+                            return <li key={index}>{index}-{item}</li>
+                        })
+                    }
+                </ul>
             </div>
         );
         

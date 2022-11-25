@@ -14,6 +14,7 @@
 <body>
     <!-- 准备一个“容器” -->
     <div id="example"></div>
+    <div id="example2"></div>
  
     <script type="text/babel">
         /**
@@ -23,10 +24,15 @@
          */
 
          // 1. 创建：函数式组件
-         // 标签首字母大写开头，react就回去渲染对应的组件，若组件没有定义则报错。
+         // 标签首字母大写开头，react就会去渲染对应的组件，若组件没有定义则报错。
          function Demo() {
-            console.log(this)  // 此处的this式undefined，因为babel编译后开启了严格模式
+            console.log(this)  // 此处的this是undefined，因为babel编译后开启了严格模式
             return <h2>这是用函数定义的组件(适用于[简单组件])的定义</h2>
+         }
+
+         // 该函数式组件渲染报错，因为首字母没有大写，但是页面能正常打开，该处报错不影响其他。
+         function demo2() {
+            return <h3><span>This is demo2</span></h3>
          }
 
         // 2. 渲染组件到页面
@@ -35,11 +41,18 @@
             document.getElementById('example')
         );
       
+        ReactDOM.render(
+            <demo2/>,
+            document.getElementById('example2')
+        );
         /**
          *  执行了ReactDOM.render() 之后，发生了什么
          *  1. React解析组件标签，找到了MyComponent组件。
-         *  2. 发现组件时使用函数定义的，随后调用该函数，
+         *  2. 发现组件是使用函数定义的，随后调用该函数，
          *     将返回的虚拟DOM转为真实DOM，随后呈现在页面上
+         * 
+         * 疑问：
+         * 函数式组件的优缺点是什么呢？
          */
     </script>
 
