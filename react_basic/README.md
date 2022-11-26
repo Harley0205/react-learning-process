@@ -20,7 +20,7 @@
    * [1-组件的实例的核心属性refs-字符串的ref](lesson02/lesson_05.html)  
    * [2-组件的实例的核心属性refs-refs回调函数](lesson02/lesson_06.html)  
    * [3-组件的实例的核心属性refs-createRef](lesson02/lesson_07.html)
-   8. [基础回顾](lesson02/class_basis/class_basis_01.html)  
+   * [基础回顾](lesson02/class_basis/class_basis_01.html)  
 
    
 3. **lesson03**  
