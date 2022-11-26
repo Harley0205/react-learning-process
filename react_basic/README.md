@@ -20,4 +20,10 @@
    5. [1-组件的实例的核心属性refs-字符串的ref](lesson02/lesson_05.html)  
    6. [2-组件的实例的核心属性refs-refs回调函数](lesson02/lesson_06.html)  
    7. [3-组件的实例的核心属性refs-createRef](lesson02/lesson_07.html)
+   8. 
    
+   3. **lesson03**  
+      * [非受控组件](lesson03/lesson_01.html) 
+      * [受控组件](lesson03/lesson_02.html) 
+      * [高阶函数和函数柯里化](lesson03/lesson_03.html)  
+      * [基础回顾](lesson03/class_basic/)
