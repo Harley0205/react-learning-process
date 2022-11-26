@@ -14,5 +14,10 @@
 
 2. **lesson02目录**
    1. [1-组件的实例的核心属性props](lesson02/lesson_01.html)
-   2. [2-组件的实例的核心属性props](lesson02/lesson_02.html)
+   2. [2-组件的实例的核心属性props](lesson02/lesson_02.html)  
+   3. [3-函数式组件使用props](lesson02/lesson_04.html)    
+   4. [constructor构造器](lesson02/lesson_03.html)  
+   5. [1-组件的实例的核心属性refs-字符串的ref](lesson02/lesson_05.html)  
+   6. [2-组件的实例的核心属性refs-refs回调函数](lesson02/lesson_06.html)  
+   7. [3-组件的实例的核心属性refs-createRef](lesson02/lesson_07.html)
    
