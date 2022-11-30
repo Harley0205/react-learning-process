@@ -30,11 +30,12 @@
          *      a. Promise、setTimeout... 数组身上的一些常用方法都是高阶函数。
          * 
          * 3. 函数的柯里化：
-         *      a. 通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。
+         *      a. 通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式。function sum(a)=>{return (b)=>{return(c)=>{return a+b+c}}},调用：sum(1)(2)(3)
          * 
          * 1. 事件的回调不能加小括号( onChange={this.saveFormData('username')} ),加了小括号的后果是，没等input点击，就已经回调完了。
-         *     且永远拿不到两个input框的值了。因为这个意思是：用saveFormData的返回值作为onChange的回调，此处的返回值是undefined。
-         *     写法：onChange={this.saveFormData} 这个的意思是：把saveFormData作为onChange的回调。
+         *     且永远拿不到两个input框的值了。
+         *     因为这个写法的意思是：用saveFormData的返回值作为onChange的回调，此处的返回值是undefined。
+         *         写法：onChange={this.saveFormData} 这个的意思是：把saveFormData作为onChange的回调。
          * 
          */
 
@@ -62,6 +63,7 @@
                // 所以，事件指定的时候，可以写小括号。总结就是：必须得把一个函数作为onChange的回调
                 return (event) =>{
                     // console.log(dataType,event.target.value)
+
                     // 注意下面dataType要用中括号括起来。
                     this.setState({[dataType]:event.target.value})
                }

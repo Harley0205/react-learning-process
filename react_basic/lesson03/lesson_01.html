@@ -29,8 +29,8 @@
 
         // 1. 非受控组件
         /**
-         * 1. 表单中所有输入类DOM的值都算 “非受控组件”，现用先取。
-         *     a. 如下例子点击登录后调用了回调函数。获取到了输入表单的值，然后alert。
+         * 1. 表单中所有输入类DOM的值都算 “非受控组件”  ---》现用先取。
+         *     a. 如下例子点击登录后调用了--回调函数-- 。获取到了输入表单的值，然后alert。
          *   
          */  
 
@@ -40,7 +40,8 @@
                 event.preventDefault()   // 阻止表单提交
 
                 const {password, username} = this
-                alert(username.value)
+                alert(username.value,password.value)
+                console.log(username.value,password.value)
             }
 
             render () {

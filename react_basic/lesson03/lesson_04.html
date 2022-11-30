@@ -23,7 +23,7 @@
         /** 
          * 承接上一个html（lesson_03.html），不用柯里化实现的写法 。
          * 1. 需要给一个函数作为onChange的回调，也就是返回的那个函数saveFormData
-         * 
+         * 2. 不明白这个写法的含义： 待解决：(event)=>{this.saveFormData('password',event)}
          */
 
         class Login extends React.Component {
@@ -50,7 +50,7 @@
             render () {
                 return (
                     <form action="http://www.baidu.com" onSubmit={this.handlesubmit}>
-                        用户名：<input onChange={(event)=>{this.saveFormData('username',event)}} type="text" name="username"/>&nbsp;
+                        用户名：<input onChange={(events)=>{this.saveFormData('username',events)}} type="text" name="username"/>&nbsp;
                         密码： <input onChange={(event)=>{this.saveFormData('password',event)}}  type="password" name="password"/> &nbsp;
                         <button>登录</button>
                     </form>

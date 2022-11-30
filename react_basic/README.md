@@ -27,4 +27,8 @@
    * [非受控组件](lesson03/lesson_01.html) 
    * [受控组件](lesson03/lesson_02.html) 
    * [高阶函数和函数柯里化](lesson03/lesson_03.html)  
-   * [基础回顾](lesson03/class_basic/)
+   * [基础回顾](lesson03/class_basic/)  
+4. **lesson04**
+   * [1-组件的生命周期-旧](lesson04/lesson_01.html)
+   * [2-组件的生命周期-旧](lesson04/lesson_02.html)
+   * [1-组件的生命周期-新](lesson04/lesson_03.html)

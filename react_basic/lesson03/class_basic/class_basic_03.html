@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>class basis</title>
+
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../../scripts/prop-types.js"></script>
+
+</head>
+
+<body>
+ 
+    <div id="demo"></div>
+    <div id="demo2"></div>
+    <div id="demo3"></div>
+    <div id="example"></div>
+    <script type="text/javascript">
+        /**
+         *  箭头函数的简单用法说明
+         */
+
+        // 常规函数
+        function add(b) {
+            return 1+b
+        }
+
+        // 箭头函数
+        var add2 = (a,b) =>{
+           return a+b
+        }
+
+        var add3 = b => 1 + b
+        
+        document.getElementById("demo").innerHTML = add(2)
+        document.getElementById("demo2").innerHTML = add2(2,1)
+        document.getElementById("demo3").innerHTML = add3(2)
+    </script>
+
+    <script type="text/babel">
+    
+        class Test extends React.Component {
+
+            add = (val, event)=>{
+                console.log(val, event.target.value)
+
+            }
+            render() {
+                return (
+                    <div>
+                         <input type="text" onChange={(event)=>{this.add('a',event)}}/><br/>
+                         <input type="text" onChange={(event)=>{this.add('b',event)}}/>
+                    </div>
+                );
+            }
+        }
+
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+        <Test />,
+        document.getElementById('example')
+        );
+    </script>
+
+</body>
+</html>
