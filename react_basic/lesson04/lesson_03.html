@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+
+    <!--
+        引入最新的react版本，演示组件的生命周期
+    -->
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/17.0.1/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/17.0.1/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/17.0.1/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/17.0.1/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <br />
+    ---实例3：新版本的组件生命周期
+    <div id="example"></div>
+    <br />
+
+    <script type="text/babel">
+
+        /** 
+         * 组件的生命周期流程图(新) 详细说明
+         * 图片所在地址为：lesson04/png/组件的生命周期流程图(新).png
+         * 
+         * 1. 在17.0.1版本中对比旧的版本，所有带will的组件都要加上UNSAFE_,除了 componentWillUnmount
+         * 2. 未来版本中，这些组件可能带来不安全的编码，组件在17.0.1中需要加上UNSAFE_，在后面可能被启用
+         *      componentWillMount
+         *      componentWillReceiveProps 
+         *      componentWillUpdate
+         * 3. 新的版本中与旧的对比：
+         *      a. 废弃了三个钩子: 上面的三个will的钩子。
+         *      b. 新增了两个钩子： getDerivedStateFromProps, getSnapshotBeforeUpdate   
+         */
+
+
+        // 1. 创建组件
+        class Count extends React.Component {
+
+            // 自定义的属性
+            add =() =>{
+                // 获取状态
+                const {count} = this.state
+
+                // 更新状态
+                console.log('1-setState')
+                this.setState({count: count+1})
+                console.log('2-setState')
+            }
+
+            // 组件的强制更新
+            force =() =>{
+                this.forceUpdate()
+                console.log('---forceUpdate---')
+            }
+
+            // 卸载组件按钮的回调
+            death =() => {
+                console.log('1-unmountComponentAtNode')
+                ReactDOM.unmountComponentAtNode(document.getElementById('example'))
+                console.log('2-unmountComponentAtNode')
+            }
+
+            // a. 构造器
+            constructor(props) {
+                console.log('constructor')
+                super(props)
+                this.state = {count:0}
+            }
+
+            /** 必须要是static 静态的
+             * 必须要有返回值： 状态对象或者null
+             * 可以接收props参数，此时的状态数据完全取决于props
+             * 这个参数可以用来当状态使用，得到的是一个派生状态。 派生状态会导致代码冗余，并使组件难以维护。
+             * 若：state的值在任何时候都取决于props，那么可以使用。
+             */
+            static getDerivedStateFromProps(props,state) {
+                console.log('getDerivedStateFromProps', props, state)
+                return null
+                // return props
+            }
+
+            /** 在render后调用，必须要返回一个null或者一个快照值(任何值都可以作为快照值)。
+             * 1. 函数 getSnapshotBeforeUpdate() 在最近一次渲染输出(提交到DOM节点)之前调用。它使得组件能在发生更改之前从DOM中捕获一些信息(例如：滚动位置)
+             *        此生命周期的任何返回值将作为参数传递给 componentDidUpdate()
+             * 
+             * 2. 在更新之前获取快照
+             * 3. 此用法并不常见
+             */ 
+            getSnapshotBeforeUpdate() {
+                console.log('-- getSnapshotBeforeUpdate')
+                // return null
+                return 'xiaohuhu'  // 此处可以保留任何值。
+            }
+
+            // 组件更新完成的钩子。参数是由getSnapshotBeforeUpdate 传递而来。
+            // snapshotValue的值就是getSnapshotBeforeUpdate()的返回值。
+            componentDidUpdate(preProps,  preState, snapshotValue) {
+                console.log('-- componentDidUpdate')
+                console.log(preProps, preState,snapshotValue)
+
+            }
+            // c. 组件挂载完成的钩子
+            componentDidMount() {
+                console.log('componentDidMount')
+            }
+
+            // 组件将要卸载的钩子。PS：调用后组件才会卸载。
+            componentWillUnmount() {
+                console.log('componentWillUnmount')
+            }
+
+            // 组件的更新
+            render() {
+                console.log('render')
+                const {count} = this.state
+                return (
+                    <div>
+                        <h2>当前求和为：{count}</h2>
+                        <button onClick={this.add}>点我+1</button>&nbsp;
+                        <button onClick={this.death}>组件卸载</button>&nbsp;
+                        <button onClick={this.force}>强制更新</button>&nbsp;
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                );
+            }
+  
+        }
+       
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Count count={11}/>,
+            document.getElementById('example')
+        );
+
+    </script>
+
+
+</body>
+</html>

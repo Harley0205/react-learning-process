@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>class basis</title>
+</head>
+
+<body>
+ 
+    <script type="text/javascript">
+        /**
+         *  函数柯里化--简单演示
+         */
+
+        // 普通函数
+        function sum(a,b,c) {
+            return a+b+c 
+        }
+        const result = sum(1,2,3)
+        console.log(result)
+
+        // 函数柯里化
+        function sum2(a) {
+            return(b)=> {
+                return (c) => {
+                    return a+b+c
+                }
+            }
+        }
+        const result2 = sum2(1)(2)(3)
+        console.log(result2)
+    </script>
+
+
+</body>
+</html>

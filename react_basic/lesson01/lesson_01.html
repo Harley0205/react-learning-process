@@ -33,13 +33,14 @@
          * 3. 虚拟DOM最终会被React 转化为真实DOM，呈现在页面上
          */
 
+        // 
         ReactDOM.render(
             <h1>hello, world</h1>,
             document.getElementById('example')
         );
 
         // 下面的这个vdom不是追加的动作，是替换的动作。
-        const vdom = <h1>again</h1>
+        const vdom = <h1>this vdom is replace</h1>
         ReactDOM.render(
             vdom,
             document.getElementById('example')

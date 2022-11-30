@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+   
+    <div id="example"></div>
+ 
+    <script type="text/babel">
+
+        /** 组件的说明周期(旧)
+         * 组件的生命周期回调函数 <==> 说明周期钩子函数 <==> 生命周期函数 <==> 生命周期钩子 
+         * 
+         * 1. 页面初始哈渲染：render
+         * 2. 组件挂载完毕： componentDidMount
+         * 3. 组件将要卸载： componentWillUnmount
+         * 
+         * 理解：
+         * 4. 组件从创建到死亡，它会经历一些特定的阶段
+         * 5. React组件中包含一系列钩子函数(生命周期回调函数)，会在特定的时刻调用
+         * 6. 我们在定义组件时，会在特定的生命周期回调函数中 做特定的工作。
+         * 
+         *  组件的挂载：当Clock组件第一次被渲染到DOM中的时候，就为其设计一个计时器，这在React中被称为 挂载 mount。
+         *  组件的卸载：当DOM中Clock组件被删除的时候，应该清除计时器。这在React中被称为 卸载 unmount。
+         * 
+         * D:\github\react-learning-process\react_basic\lesson04\png\组件的生命周期流程图(旧).png
+         */
+    
+
+        // 1. 创建组件
+        // 状态数据：能驱动页面的更新，页面的显示。
+        class Life extends React.Component {
+            state={opacity:1}
+
+            death = () => {
+                // 清除定时器
+                // clearInterval(this.timer)  // 可以放在组件的卸载componentWillUnmount里面。
+
+                // 卸载组件: 执行的顺序是 1 3 4 2
+                console.log('1')
+                ReactDOM.unmountComponentAtNode(document.getElementById('example'))
+                console.log('2')
+            }
+
+            // 定时器，200ms调用一次。
+            action =() =>{
+
+                // 将定时器组件挂载到类的属性上。
+                setInterval(() => {
+                    let {opacity} = this.state
+                    opacity -= 0.1
+                    if(opacity <=0){
+                        opacity = 1
+                    }
+                    this.setState({opacity})
+                }, 200);
+            }
+
+            // render调用多次(1+n)，所以定时器不能写在render里面
+            // render调用的时机： 初始化渲染，状态更新之后。
+            render () {
+                console.log('render')
+                
+                return(
+                <div>
+                    <h2 style={{opacity:this.state.opacity}}>React学不会怎么办</h2>
+                    <button onClick={this.death}>我不活了</button>  &nbsp;
+                    <button onClick={this.action}>点击就开始变化</button>    
+                </div>
+                )
+            }
+
+            /** 组件挂载完毕调用。
+             * 1. componentDidMount，是在组件挂载到页面完毕之后调用，只调用一次。
+             * 2. 下面这个函数和render是同一个级别的，是由react弄出来Life的实例对象之后，
+             *     直接借助实例对象.render，接下来就是实例对象.componentDidMount去调用的。
+             * 3. 如果把定时器放在这个里面，当组件初始化渲染完成后，就会自动调用定时器了 。
+             */
+            componentDidMount(){
+                console.log('#')
+                this.timer = setInterval(() => {
+                    let {opacity} = this.state
+                    opacity -= 0.1
+                    if(opacity <=0){
+                        opacity = 1
+                    }
+                    this.setState({opacity})
+                }, 200);
+            }
+
+            // 组件将要卸载 的时候自动触发
+            componentWillUnmount() {
+                // 清除定时器
+                console.log('3')
+                clearInterval(this.timer)
+                console.log('4')
+            }
+
+        }
+       
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Life />,
+            document.getElementById('example')
+        );
+
+    </script>
+
+
+</body>
+</html>

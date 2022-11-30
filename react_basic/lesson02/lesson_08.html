@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+   
+    <div id="example"></div>
+ 
+    <script type="text/babel">
+
+        /** 
+         * 事件处理
+         * 1. 通过onXXX 属性指定事件处理函数(注意大小)
+         *    a. React使用的是自定义(合成)事件，而不是使用的原生DOM事件
+         *    b. React中的事件是通过事件委托方式处理的(委托给组件最外层的元素)
+         * 2. 通过event.target 得到发生事件的DOM元素对象
+         * 
+         * PS：a. 原生的onclick事件，在react中进行了封装为onClick,react之所以进行了封装考虑到了很多兼容性的问题。
+         *     b. 事件委托的目的是为了高效。
+         *     c. 如果发生事件的元素正好是你要操作的这个元素，就可以省略ref
+         *     d. 不要过度的使用ref。
+         */
+        
+
+         class Demo3 extends React.Component {
+            
+            // 发生事件的事件源是input
+            showData2 =(event) => {
+                alert(event.target.value)
+            }
+
+            render() {
+                return (
+                    <div>
+                        <input onBlur={this.showData2} type="text" placeholder="失去焦点提示数据-省略ref" /> &nbsp;
+                    </div>
+                )
+            }
+         }
+        
+        
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Demo3 />,
+            document.getElementById('example')
+        );
+
+    </script>
+
+
+</body>
+</html>

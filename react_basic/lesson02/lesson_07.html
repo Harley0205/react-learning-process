@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/prop-types.js"></script>
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+   
+    <div id="example3"></div>
+ 
+    <script type="text/babel">
+
+        /** 组件实例的三大属性refs
+         * 1. 字符串类型的ref。 字符串类型的ref存在些效率方面的问题 ，因此官方不推荐使用。
+         * 2. 回调函数形式的ref
+         * 3. createRef
+         */
+        
+        // 1. 定义类式组件
+
+        // 1.3 createRef
+        /**
+         * React.createRef 调用后可以返回一个容器，该容器可以存储被ref所标识的节点
+         * 1. ref={this.myRef}: 一个有createRef创建出来的容器，会把当前的节点，也就是所在的input，直接存储到了容器里面。
+         *                      该容器是专人专用的，如果有别的节点使用了，就会把之前容器里面的数据给替换掉。
+         */
+        class Demo3 extends React.Component {
+            
+            myRef = React.createRef()
+            myRef2 = React.createRef()
+
+            showData =() =>{
+                console.log(this.myRef)
+                console.log(this.myRef.current)
+                console.log(this.myRef.current.value)
+            }
+            showData2 =() =>{
+                alert(this.myRef2.current.value)
+            }
+
+            render() {
+                return (
+                    <div>
+                        <input ref={this.myRef} type="text" placeholder="点击按钮提示数据" /> <br />
+                        <input ref={this.myRef} type="text" placeholder="替换数据" /> &nbsp;
+                        <button onClick={this.showData} >点击提示输入框的数据</button>     <br />
+                        <input onBlur={this.showData2} ref={this.myRef2} type="text" placeholder="失去焦点提示数据" /> &nbsp;
+                    </div>
+                )
+            }
+        }
+
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Demo3 />,
+            document.getElementById('example3')
+        );
+
+    </script>
+
+
+</body>
+</html>

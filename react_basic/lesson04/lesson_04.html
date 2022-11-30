@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello React!</title>
+
+    <!--
+        引入最新的react版本，演示组件的生命周期
+    -->
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/17.0.1/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/17.0.1/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/17.0.1/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/17.0.1/prop-types.js"></script>
+
+    <style>
+        .list{
+            width: 200px;
+            height: 150px;
+            background-color: skyblue;
+            overflow: auto;
+        }
+        .news{
+            height: 30px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    
+    <br />
+    react写法：
+    <br>
+
+    <div id="example"></div>
+    <br />
+
+    <script type="text/babel">
+
+        /** 
+         *  getSnapshotBeforeUpdate 的使用场景。
+         */
+
+        class NewsList extends React.Component{
+            state = {newsArr:[]}
+
+            componentDidMount() {
+                console.log('componentDidMount')
+                setInterval(() => {
+                    // 获取原理状态
+                    const {newsArr} = this.state 
+                    console.log(newsArr)
+                    // 模拟一条新闻
+                    const news = '新闻'+ (newsArr.length + 1)
+                    console.log(news)
+                    // 更新状态
+                    this.setState({newsArr:[news,...newsArr]})
+                    console.log(newsArr)
+
+                }, 5000);
+                console.log('end')
+            }
+
+            getSnapshotBeforeUpdate() {
+                
+            }
+            render() {
+                return (
+                    <div className="list">
+                       {
+                        this.state.newsArr.map((n,index)=>{
+                            return <div key={index} className="news">{n}</div>
+                        })
+                       }
+                    </div>
+                )
+            }
+        }
+
+       
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <NewsList />,
+            document.getElementById('example')
+        );
+
+    </script>
+
+
+</body>
+</html>
