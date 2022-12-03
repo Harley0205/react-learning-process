@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>key的作用</title>
+
+    <!--
+        引入最新的react版本，演示组件的生命周期
+    -->
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/17.0.1/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/17.0.1/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/17.0.1/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/17.0.1/prop-types.js"></script>
+
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <div id="example"></div>
+
+    <script type="text/babel">
+        /** 经典面试题：
+         *  1. react/vue 中的key有什么用？(key的内部原理是什么？)
+         *  2. 为什么遍历map列表的时候，key最好不要用index？
+         * 
+         * 答案：
+         *  1. 虚拟DOM中的key的作用：
+         *     a. 简单的说：key是虚拟DOM对象的标识，在更新显示时key起着极其重要的作用。
+         *     b. 详细的说：当状态中的数据发生变化时，react会根据【新数据】生成【新的虚拟DOM】，
+         *        随后React进行【新的虚拟DOM】与【旧的虚拟DOM】的diff比较，比较规则如下：
+         *        I. 旧的虚拟DOM中找到了与新的虚拟DOM相同的key：
+         *            1. 若虚拟DOM中内容没有变化，直接使用 “之前的” 真实DOM。 
+         *            2. 若虚拟DOM中内容发生改变，则生成新的真实DOM，随后替换掉页面中之前的真实DOM
+         *       II. 旧的虚拟DOM中未找到与新的虚拟DOM相同的key
+         *            1.根据数据创建新的真实DOM，随后渲染到页面。
+         * 
+         *  2. 用index作为key可能会引发的问题：
+         *      a. 若对数据进行：逆序添加、逆序删除等破坏顺序的操作：会产生没有必要的真实DOM更新 ==》界面没问题，但效率很低。
+         *      b. 如果结构中还包含输入类的DOM： 会产生错误DOM更新 ==》 界面会有问题 
+         *      c. 注意！！ 如果不存在对数据的逆序添加、逆序删除等破坏顺序操作，仅用于渲染列表用于展示，使用index作为key是没有问题的。
+         * 
+         *  3. 开发中如何选择key？
+         *     a. 最好使用每条数据的唯一标识作为key，比如id、手机号、身份证号、学号等唯一性的值。
+         *     b. 如果确定只是简单的展示数据，用index也是可以滴，仅限简单的数据展示哦。
+         */
+
+        class Person extends React.Component{
+            state = {
+                persons:[
+                    {id:1,name:"xiaohu",age:18},
+                    {id:2,name:"xiaowang",age:19},
+                ]
+            }
+
+            add = () => {
+                const {persons} = this.state
+                const per = {id:3,name:"xiaopeng",age:20}
+                this.setState({persons:[per, ...persons]})
+            }
+            /** 使用index索引值作为key的过程说明：
+             * 
+             * 初始数据：
+             *    {id:1,name:"xiaohu",age:18}
+             *    {id:2,name:"xiaowang",age:19}
+             * 
+             * 初始的虚拟DOM：
+             *    <li key=0>xiaohu---18</li>
+             *    <li key=1>xiaowang---19</li>
+             * 
+             * 添加信息，更新后的数据
+             *    {id:3,name:"xiaopeng",age:20}
+             *    {id:1,name:"xiaohu",age:18}
+             *    {id:2,name:"xiaowang",age:19}
+             * 
+             * 添加信息，更新数据后的虚拟DOM
+             *    <li key=0>xiaowang---20</li>
+             *    <li key=1>xiaohu---18</li>
+             *    <li key=2>xiaowang---19</li> 
+             * 说明：
+             *     第一条新增的虚拟DOM，因为是新增的所以不能利用之前的虚拟DOM，所以新的那一条会转化成真实的DOM挂载到页面
+             *     第二条id=1的虚拟DOM找到 更新前的id=1的虚拟DOM发现内容value不一致，同样第二天也会转成真实DOM,挂载到页面
+             *     第三条id=2的，在之前的旧的DOM中不存在，所以也会转成真实DOM。
+             *   但是，问题是新增的数据只有一条，其余两条都是可以复用的。
+             *   所以使用了索引值作为key，当数据量大的时候会导致大量没有必要的真实DOM更新，引发效率问题。
+             * 
+             * 解决方案：用数据的唯一值作为索引值，即可。
+             */ 
+            render() {
+                const {persons} = this.state
+                return (
+                    <div>
+                        <h2> 展示人员信息 </h2>
+                        <button onClick={this.add}>添加一个人员信息</button>
+                        <ul>
+                            {
+                                this.state.persons.map((personObj, index)=>{
+                                    return <li key={index}>{personObj.name}---{personObj.age} <input type="text"/></li>
+                                })
+                            }
+                        </ul>
+                        <hr />
+                        <h2> 使用ID作为数据唯一标识</h2>
+                        <ul>
+                            {
+                                this.state.persons.map((persons)=>{
+                                    return <li key={persons.id}>{persons.name}---{persons.age} <input type="text"/></li>
+                                })
+                            }    
+                        </ul>
+                    </div>
+                );
+            }
+        }
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Person />,
+            document.getElementById('example')
+        );
+
+    </script>
+
+
+</body>
+</html>

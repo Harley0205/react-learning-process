@@ -43,8 +43,34 @@
 
     <script type="text/babel">
 
-        /** 
-         *  getSnapshotBeforeUpdate 的使用场景。
+        /** getSnapshotBeforeUpdate 的使用场景。
+         * 1. 在最近一次渲染输出(提交到DOM节点) 之气调用。
+         *    它使得组件能在发生更改之前从DOM中捕获一些信息(列入，滚动位置)。
+         * 2. 此生命周期的任何返回值将作为参数传递给componentDidUpdate()
+         * 
+         * react 生命周期(新)总结
+         * 1. 初始化阶段：由ReactDOM.render()触发 -- 》 初次渲染 
+         *    a. constructor()  
+         *    b. getDerivedStateFromProps
+         *    c. render()
+         *    d. componentDidMount
+         * 
+         * 2. 更新阶段：由组件内部this.setState()或父组件重新render触发
+         *    a. getDerivedStateFromProps()
+         *    b. shouldComponentUpdate()
+         *    c. render()
+         *    d. getSnapshotBeforeUpdate 
+         *    e. componentDidUpdate
+         * 
+         * 3. 卸载组件：由ReactDOM.unmountComponentAtNode()触发
+         *    a. componentWillUnmount()
+         * 
+         * 重要的钩子：
+         *   a. render()              : 初始化渲染或者更新渲染调用
+         *   b. componentDidMount()   : 开启监听，发送ajax请求
+         *   c. componentWillUnmount(): 做一些收尾工作，如：清理定时器
+         * 
+         *    
          */
 
         class NewsList extends React.Component{
@@ -67,12 +93,18 @@
                 console.log('end')
             }
 
+            // 获取更新前的高度
             getSnapshotBeforeUpdate() {
-                
+                return this.refs.list.scrollHeight 
+            }
+
+            // 注意：此处是加等于。
+            componentDidUpdate(preProps, preState, height) {
+                this.refs.list.scrollTop += this.refs.list.scrollHeight - height
             }
             render() {
                 return (
-                    <div className="list">
+                    <div className="list" ref="list">
                        {
                         this.state.newsArr.map((n,index)=>{
                             return <div key={index} className="news">{n}</div>

@@ -32,3 +32,6 @@
    * [1-组件的生命周期-旧](lesson04/lesson_01.html)
    * [2-组件的生命周期-旧](lesson04/lesson_02.html)
    * [1-组件的生命周期-新](lesson04/lesson_03.html)
+   * [getSnapshotBeforeUpdate的使用场景与组件生命周期-新 总结](lesson04/lesson_04.html)  
+   * [验证Diffing算法](lesson04/lesson_05.html)
+   * [key的作用(常见于面试题)](lesson04/lesson_06.html)

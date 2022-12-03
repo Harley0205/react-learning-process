@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>验证Diffing算法</title>
+
+    <!--
+        引入最新的react版本，演示组件的生命周期
+    -->
+    <!-- 要先引入react的核心库，再引入react的dom库 -->
+    <script src="../scripts/17.0.1/react.development.js"></script>
+    <!-- 引入react-dom, 用于支持react操作DOM -->
+    <script src="../scripts/17.0.1/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js -->
+    <script src="../scripts/17.0.1/babel.min.js"></script>
+    <!-- 引入prop-types，用于对组件标签属性进行限定 -->
+    <script src="../scripts/17.0.1/prop-types.js"></script>
+
+</head>
+
+<body>
+    <!-- 准备一个“容器” -->
+    <h1>验证Diffing算法</h1>
+    <br />
+    <br />
+    <div id="example"></div>
+
+    <script type="text/babel">
+
+        class Time extends React.Component {
+            state = {date: new Date()}
+
+            componentDidMount() {
+                setInterval(() => {
+                    this.setState({
+                        date: new Date()
+                })
+                }, 1000);  //  1s
+            }
+
+            /** 验证Diffing算法
+             * 
+             * 1. 下面由三个标签，h1,input,span和span里面的input标签。
+             * 2. 每次更新节点都会与之前节点进行对比，发现h1,input,span里面的input标签都没有变化，
+             *    变化的仅仅是span标签(此处对比的最小粒度是标签，也就是span里面“现在是：” 和时间 都会变化)。
+             * 3. h1,input,span里面的input都没有变化，用的都是之前第一次部署的DOM，具体可以在输入框输入内容，查看是否会消失。
+             *     如果输入框内容没消失，说明input输入框没有发生变化。
+             */
+            render() {
+                return (
+                    <div>
+                        <h1>hello</h1>
+                        <input type="text" />
+                        <span> 现在是：{this.state.date.toTimeString()}
+                            <input type="text" />    
+                        </span>
+                    </div>
+                );
+            }
+        }
+
+
+        // 2. 渲染组件到页面
+        ReactDOM.render(
+            <Time />,
+            document.getElementById('example')
+        );
+
+    </script>
+
+
+</body>
+</html>
